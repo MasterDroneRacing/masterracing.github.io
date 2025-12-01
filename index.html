@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="We propose the MasterRacing framework for drone racing in diverse, unknown and cluttered environments.">
+  <meta name="keywords" content="Aerial Systems: Perception and Autonomy, Collision Avoidance, Reinforcement Learning">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MasterRacing</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Mastering Diverse, Unknown, and Cluttered Tracks for Robust
+Vision-Based Drone Racing</h1>
+          <div class="is-size-4 publication-authors">
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?hl=zh-CN&authuser=1&user=3k_qqnwAAAAJ">Feng Yu</a><sup>*</sup>,</span>
+            <span class="author-block">
+              <a href="">Hu Yu</a><sup>*</sup>,</span>
+            <span class="author-block">
+              <a href="">Yang Su</a>,
+            </span>
+            <span class="author-block">
+              <a href="">Yang Deng</a>,
+            </span>
+            <span class="author-block">
+              <a href="">Linzuo Zhang</a>,
+            </span>
+            <span class="author-block">
+              <a href="">Danping Zou</a><sup>†</sup>,
+            </span>
+
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Shanghai Jiao Tong University,</span>
+          </div>
+
+          <div class="is-size-6 publication-authors">
+            <span class="author-block"><sup>*</sup>Equal contribution,</span>
+            <span class="author-block"><sup>†</sup>Corresponding author</span>
+          </div>
+
+          <div class="is-size-4 publication-veneu"> RAL 2025 </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="./static/masterracing.pdf"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/MasterDroneRacing/MasterRacing"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <video id="teaser" autoplay muted loop playsinline controls height="100%">
+        <source src="./static/videos/formal-video-compressed.mp4"
+                type="video/mp4">
+      </video>
+      <!-- <h2 class="subtitle has-text-centered">
+        <span class="dnerf">Nerfies</span> turns selfie videos from your phone into
+        free-viewpoint
+        portraits.
+      </h2> -->
+    </div>
+  </div>
+</section>
+
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Most reinforcement learning (RL)-based methods for drone racing target fixed, obstacle-free tracks, leaving the generalization to unknown, cluttered environments largely unaddressed.  
+            This challenge stems from the need to balance racing speed and collision avoidance, limited feasible space causing policy exploration trapped in local optima during training, 
+            and perceptual ambiguity between gates and obstacles in depth maps-especially when gate positions are only coarsely specified. To overcome these issues, we propose a two-phase learning framework: 
+            an initial soft-collision training phase that preserves policy exploration for high-speed flight, followed by a hard-collision refinement phase that enforces robust obstacle avoidance. An adaptive, 
+            noise-augmented curriculum with an asymmetric actor-critic architecture gradually shifts the policy's reliance from privileged gate-state information to depth-based visual input. We further impose 
+            Lipschitz constraints and integrate a track-primitive generator to enhance motion stability and cross-environment generalization. We evaluate our framework through extensive simulation and ablation
+             studies, and validate it in real-world experiments on a computationally constrained quadrotor. The system achieves agile flight while remaining robust to gate-position errors, developing a generalizable 
+             drone racing framework with the capability to operate in diverse, partially unknown and cluttered environments.
+          </p>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <!-- Method. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Method</h2>
+        <div class="content has-text-justified">
+          <img src="./static/images/method.png"
+               class="framework-image"
+               alt="ND-SDF overview."/>
+          
+          <p>
+            <b>MasterRacing overview.</b> The proposed two-phase framework for quadrotor racing comprises: (a) <b>Soft Collision Phase</b>: Depth observations, next gate position commands and drone states are 
+            encoded into shared embeddings for a locally Lipschitz constrained actor-critic network. Actions are executed in the collision-free simulator generated by the predefined track primitive generator to 
+            encourage racing. (b) <b>Hard Collision Phase</b>: The pre-trained policy is fine-tuned with curriculum noise injected into next gate position commands, while interacting with a rigid-body simulator 
+            enforcing real collision effects. (c) <b>Deployment</b>: After system identification aligning simulation and real dynamics, the policy is deployed on a physical quadrotor using Intel RealSense D435i 
+            for depth perception and VICON for state estimation.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- Our method. -->
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Ablation Results</h2>
+    
+    <div class="columns is-centered is-multiline">
+      
+      <div class="column is-half">
+        <div class="content has-text-centered">
+          <video autoplay muted loop playsinline controls width="100%">
+            <source src="./static/videos/final-time-optimal-cmp.mp4" type="video/mp4">
+          </video>
+          <p>
+            <a href="https://github.com/uzh-rpg/sb_min_time_quadrotor_planning" target="_blank">Comparison with the model-based time optimal method</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="column is-half">
+        <div class="content has-text-centered">
+          <video autoplay muted loop playsinline controls width="100%">
+            <source src="./static/videos/final-large-occlusion-blind.mp4" type="video/mp4">
+          </video>
+          <p>Racing in scenes with severe obstruction caused by large obstacles</p>
+        </div>
+      </div>
+
+      <div class="column is-half">
+        <div class="content has-text-centered">
+          <video autoplay muted loop playsinline controls width="100%">
+            <source src="./static/videos/speed-ablation.mp4" type="video/mp4">
+          </video>
+          <p>Speed ablation results on different obstacle densities and track diversity</p>
+        </div>
+      </div>
+
+      <div class="column is-half">
+        <div class="content has-text-centered">
+          <video autoplay muted loop playsinline controls width="100%">
+            <source src="./static/videos/test_on_hand_draw.mp4" type="video/mp4">
+          </video>
+          <p>Testing on diverse hand-drawn track layouts</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{yu2025masterracing,
+  title     = {Mastering Diverse, Unknown, and Cluttered Tracks for Robust Vision-Based Drone Racing},
+  author    = {Feng Yu, Yu Hu, Yang Su, Yang Deng, Linzuo Zhang, and Danping Zou},
+  booktitle = {IEEE Robotics and Automation Letters (RAL)},
+  year      = {2025}
+}</code></pre>
+  </div>
+</section>
+
+
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="./static/masterracing.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/MasterDroneRacing/MasterRacing" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            We thank <a
+              href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> for providing the template.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
